@@ -13,9 +13,9 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./user-role-form.component.scss']
 })
 export class UserRoleFormComponent implements OnInit {
-  userRoles: UserRole[];
-  userRoleColumns: TableColumn[];
-  searchString: string;
+  userRoles?: UserRole[];
+  userRoleColumns?: TableColumn[];
+  searchString?: string;
   userRoleActionData: CustomAction = new CustomAction('Update User Roles', 'update', 'primary');
 
   constructor(
@@ -46,7 +46,7 @@ export class UserRoleFormComponent implements OnInit {
   }
 
   submitUserRoles(): void{
-    this.userService.assignUserRoles(this.data.id, this.userRoles).subscribe(() => {
+    this.userService.assignUserRoles(this.data.id, this.userRoles!).subscribe(() => {
       this.toastr.success(this.translate.instant('common.entityUpdated', {entity: 'User Role'}));
       this.dialogRef.closeAll();
     });

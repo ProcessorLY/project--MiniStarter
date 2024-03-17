@@ -11,7 +11,7 @@ import { AccountService } from "../../../core/services/account.service";
 export class WelcomeComponent implements OnInit {
 
   fullName: string = '';
-  email: string;
+  email?: string;
   date:Date=new Date();
   constructor(private accountService: AccountService, public dialog: MatDialog) { }
 

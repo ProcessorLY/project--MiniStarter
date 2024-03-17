@@ -13,9 +13,9 @@ import { User } from 'src/app/shared/models/user';
 export class ProfileComponent implements OnInit {
   spin:boolean = false;
   url: any = [];
-  uploadType: number;
+  uploadType?: number;
 
-  user: User;
+  user?: User;
 
   constructor(private userService: UserService, private toastrService: ToastrService, private accountService: AccountService) {}
 
@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
     this.accountService.getCurrentLoggedInUser().subscribe(response => this.user = response);
   }
 
-  uploadFile(event) {
+  uploadFile(event: any) {
     this.userService.updatePhoto(event).subscribe(response => {
       this.toastrService.success('Updated Photo!');
     });

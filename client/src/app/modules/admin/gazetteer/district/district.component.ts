@@ -17,16 +17,16 @@ import { DistrictFormComponent } from '../district-form/district-form.component'
   styleUrls: ['./district.component.scss']
 })
 export class DistrictComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+  @ViewChild(MatSort) sort: MatSort| null = null;
 
-  provinceCode: number;
+  provinceCode: number = 0;
 
   items = new MatTableDataSource<District>();
-  metaData: MetaData;
+  metaData?: MetaData;
   columns: string[] = ['type', 'code', 'nameKH', 'nameEN', 'action'];
 
-  searchString: string;
+  searchString?: string;
 
   ngAfterViewInit() {
     this.items.paginator = this.paginator;
@@ -81,6 +81,6 @@ export class DistrictComponent implements OnInit {
   }
   onReload = () => this.getItems();
   onSearch() {}
-  onSort($event) {}
+  onSort($event: any) {}
 
 }

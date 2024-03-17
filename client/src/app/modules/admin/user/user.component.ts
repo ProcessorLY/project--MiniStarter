@@ -17,14 +17,14 @@ import { UserRoleFormComponent } from './user-role-form/user-role-form.component
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  items: User[];
-  metaData: MetaData;
-  columns: TableColumn[];
+  items?: User[];
+  metaData?: MetaData;
+  columns?: TableColumn[];
   params = new UserParams();
-  searchString: string;
+  searchString?: string;
   userRoleActionData: CustomAction = new CustomAction('Manage User Roles');
 
-  onlineUserCount: number;
+  onlineUserCount?: number;
 
   constructor(
     public userService: UserService,

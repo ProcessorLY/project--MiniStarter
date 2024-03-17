@@ -6,8 +6,8 @@ export interface MetaData {
 }
 
 export class PaginatedResponse<dynamic> {
-  items: dynamic;
-  metaData: MetaData;
+  items?: dynamic;
+  metaData?: MetaData;
 
   // constructor(items: T, metaData: MetaData) {
   //     this.items = items;

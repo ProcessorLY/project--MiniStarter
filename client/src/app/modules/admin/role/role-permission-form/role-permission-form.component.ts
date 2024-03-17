@@ -49,7 +49,7 @@ export class RolePermissionFormComponent implements OnInit {
 
   getLevel = (node: PermissionFlatNode) => node.level;
   isExpandable = (node: PermissionFlatNode) => node.expandable;
-  getChildren = (node: PermissionNode): PermissionNode[] => node.children;
+  getChildren = (node: PermissionNode): PermissionNode[] | null => node.children;
   hasChild = (_: number, _nodeData: PermissionFlatNode) => _nodeData.expandable;
   hasNoContent = (_: number, _nodeData: PermissionFlatNode) => _nodeData.name === '';
 

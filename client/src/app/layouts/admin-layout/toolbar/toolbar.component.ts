@@ -13,12 +13,12 @@ import { ThemeService } from 'src/app/core/services/theme.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  @Input() darkModeIcon: string;
-  @Input() inputSideNav: MatSidenav;
-  @Input() isDarkMode: boolean;
+  @Input() darkModeIcon?: string;
+  @Input() inputSideNav?: MatSidenav;
+  @Input() isDarkMode?: boolean;
   @Output('darkModelToggled') darkModelToggled = new EventEmitter<{ isDarkMode: boolean, darkModeIcon: string }>();
-  fullName: string;
-  email: string;
+  fullName?: string;
+  email?: string;
 
   constructor(private localStorageService: LocalStorageService, public accountService: AccountService, public dialog: MatDialog,private themeService:ThemeService) { }
 

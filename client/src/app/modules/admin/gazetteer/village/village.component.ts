@@ -5,7 +5,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MetaData } from 'src/app/shared/models/pagination';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table';
 import { GazetteerService } from 'src/app/core/services/gazetteer.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,16 +17,16 @@ import { VillageFormComponent } from '../village-form/village-form.component';
   styleUrls: ['./village.component.scss']
 })
 export class VillageComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatTableDataSourcePaginator| null = null;
+  @ViewChild(MatSort) sort: MatSort | null = null;
 
-  communeCode: number;
+  communeCode?: number;
 
   items = new MatTableDataSource<Village>();
-  metaData: MetaData;
+  metaData?: MetaData;
   columns: string[] = ['type', 'code', 'nameKH', 'nameEN', 'action'];
 
-  searchString: string;
+  searchString?: string;
 
   ngAfterViewInit() {
     this.items.paginator = this.paginator;
@@ -45,7 +45,7 @@ export class VillageComponent implements OnInit {
   }
 
   getItems() {
-    this.gazetteerService.getVillagesByDistrict(this.communeCode).subscribe((result) => {
+    this.gazetteerService.getVillagesByDistrict(this.communeCode!).subscribe((result) => {
       this.items = new MatTableDataSource<Village>(result);
       this.items.paginator = this.paginator;
       this.items.sort = this.sort;
@@ -53,7 +53,7 @@ export class VillageComponent implements OnInit {
   }
 
   openForm(village?: Village): void {
-   if (village == undefined) village = { type: null, nameKH: null, nameEN: null, code: null,  communeCode: this.communeCode}
+   if (village == undefined) village = { type: null, nameKH: null, nameEN: null, code: null,  communeCode: this.communeCode ?? 0}
     const dialogRef = this.dialog.open(VillageFormComponent, {
       data: village,
       width: '50vw',
@@ -82,5 +82,5 @@ export class VillageComponent implements OnInit {
   }
   onReload = () => this.getItems();
   onSearch() {}
-  onSort($event) {}
+  onSort($event: any) {}
 }

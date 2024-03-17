@@ -18,14 +18,14 @@ import { ProvinceFormComponent } from './province-form/province-form.component';
 })
 
 export class GazetteerComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+  @ViewChild(MatSort) sort: MatSort | null= null;
 
   items = new MatTableDataSource<Province>();
-  metaData: MetaData;
+  metaData?: MetaData;
   columns: string[] = ['type', 'code', 'nameKH', 'nameEN', 'action'];
 
-  searchString: string;
+  searchString?: string;
   isOpen = false;
 
   gazetteerStats: any;
@@ -84,6 +84,6 @@ export class GazetteerComponent implements OnInit, AfterViewInit {
 
   }
   onSearch() {}
-  onSort($event) {}
+  onSort($event: any) {}
 
 }

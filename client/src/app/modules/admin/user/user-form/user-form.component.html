@@ -1,5 +1,5 @@
 <app-card-header [title]="this.formTitle"></app-card-header>
-  <div *ngIf="this.userForm.get('id').value === '' || this.userForm.get('id').value === null">
+  <div *ngIf="this.userForm!.get('id')!.value === '' || this.userForm!.get('id')!.value === null">
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="panel-content">
       <mat-dialog-content class="mat-typography" style="width: auto;">
         <div class="row" [@myAnimationTrigger]>
@@ -75,7 +75,7 @@
       </mat-dialog-actions>
     </form>
   </div>
-  <div *ngIf="this.userForm.get('id').value !== '' && this.userForm.get('id').value !== null">
+  <div *ngIf="this.userForm!.get('id')!.value !== '' && this.userForm!.get('id')!.value !== null">
     <mat-tab-group mat-align-tabs="start">
       <mat-tab label="Profile">
         <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="panel-content">

@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PieChartCardComponent implements OnInit {
 
-  single: any[];
+  single: any[] | null = null;
   view: any[] = [700, 400];
 
   // options

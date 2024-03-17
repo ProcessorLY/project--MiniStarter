@@ -17,10 +17,10 @@ import { MetaData } from 'src/app/shared/models/pagination';
   styleUrls: ['./role.component.scss'],
 })
 export class RoleComponent implements OnInit {
-  roles: Role[];
-  metaData: MetaData;
-  roleColumns: TableColumn[];
-  searchString: string;
+  roles?: Role[];
+  metaData?: MetaData;
+  roleColumns?: TableColumn[];
+  searchString?: string;
   permissionActionData: CustomAction = new CustomAction('Manage Permissions');
 
 
@@ -36,7 +36,8 @@ export class RoleComponent implements OnInit {
   }
 
   getRoles(): void {
-    this.roleService.getRoles().subscribe((response: Role[]) => {
+    //  Role[]
+    this.roleService.getRoles().subscribe((response: any) => {
       this.roles = response;
       // this.metaData = response.metaData;
     });

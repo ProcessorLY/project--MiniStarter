@@ -6,25 +6,25 @@ export interface Province {
 }
 
 export interface District {
-  type: string;
-  code: number;
+  type: string | null;
+  code: number | null;
   provinceCode: number;
-  nameKH: string;
-  nameEN: string;
+  nameKH: string | null;
+  nameEN: string | null;
 }
 
 export interface Commune {
-  type: string;
-  code: number;
+  type: string | null;
+  code: number | null;
   districtCode: number;
-  nameKH: string;
-  nameEN: string;
+  nameKH: string | null;
+  nameEN: string | null;
 }
 
 export interface Village {
-  type: string;
-  code: number;
-  communeCode: number;
-  nameKH: string;
-  nameEN: string;
+  type: string | null;
+  code: number | null;
+  communeCode: number | null;
+  nameKH: string | null;
+  nameEN: string | null;
 }

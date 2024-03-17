@@ -11,8 +11,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./village-form.component.scss']
 })
 export class VillageFormComponent implements OnInit {
-  villageForm: FormGroup;
-  formTitle: string;
+  villageForm?: FormGroup;
+  formTitle?: string;
   editMode = false;
 
   validationErrors: string[] = [];
@@ -34,7 +34,7 @@ export class VillageFormComponent implements OnInit {
       communeCode: [this.data && this.data.communeCode, Validators.required]
     });
 
-    if (this.villageForm.get('code').value === "" || this.villageForm.get('code').value == null) {
+    if (this.villageForm.get('code')!.value === "" || this.villageForm.get('code')!.value == null) {
       this.editMode = false;
       this.formTitle = "Add District";
     }
@@ -45,14 +45,14 @@ export class VillageFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.villageForm.valid) {
+    if (this.villageForm!.valid) {
       if (!this.editMode) {
-        this.gazetteerService.createVillage(this.villageForm.value).subscribe({
+        this.gazetteerService.createVillage(this.villageForm!.value).subscribe({
           next: (response) => this.toastr.success("Succesfully"),
           error: (error) => this.validationErrors = error
         })
       } else {
-        this.gazetteerService.updateVillage(this.villageForm.value).subscribe({
+        this.gazetteerService.updateVillage(this.villageForm!.value).subscribe({
           next: (response) => {
             this.toastr.success("Succesfully")
           },

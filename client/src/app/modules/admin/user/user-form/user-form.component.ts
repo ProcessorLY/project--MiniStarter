@@ -26,8 +26,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 
 export class UserFormComponent implements OnInit {
 
-  userForm: FormGroup;
-  formTitle: string;
+  userForm?: FormGroup;
+  formTitle?: string;
   editMode = false;
 
   validationErrors: string[] = [];
@@ -50,7 +50,7 @@ export class UserFormComponent implements OnInit {
       phoneNumber: [this.data && this.data.phoneNumber, Validators.required],
       isActive: [this.data && this.data.isActive]
     });
-    if (this.userForm.get('id').value === "" || this.userForm.get('id').value == null) {
+    if (this.userForm.get('id')!.value === "" || this.userForm.get('id')!.value == null) {
       this.editMode = false;
       this.formTitle = "Add User";
     }
@@ -62,14 +62,14 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.userForm.valid) {
-      if (this.userForm.get('id').value === "" || this.userForm.get('id').value == null) {
-        this.userService.create(this.userForm.value).subscribe({
+    if (this.userForm!.valid) {
+      if (this.userForm!.get('id')!.value === "" || this.userForm!.get('id')!.value == null) {
+        this.userService.create(this.userForm!.value).subscribe({
           next: (response) => this.toastr.success("Succesfully"),
           error: (error) => this.validationErrors = error
         })
       } else {
-        this.userService.update(this.userForm.value).subscribe({
+        this.userService.update(this.userForm!.value).subscribe({
           next: (response) => {
             this.toastr.success(response)
             this.toastr.success("Succesfully")

@@ -8,7 +8,7 @@ import { Upload, UploadType } from 'src/app/shared/models/upload';;
 })
 export class UploaderComponent implements OnInit {
   @Input() url: any;
-  @Input() uploadType: UploadType;
+  @Input() uploadType?: UploadType;
   // @Output() onLoadFile = new EventEmitter<Upload>();
   @Output() onUploadFile = new EventEmitter<Upload>();
 
@@ -19,7 +19,7 @@ export class UploaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  handleSelectFile(event) {
+  handleSelectFile(event: any) {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
@@ -32,7 +32,7 @@ export class UploaderComponent implements OnInit {
       // }
       reader.onloadend = function(){
         var output = document.getElementById('output') as HTMLImageElement;
-        output.src = reader.result.toString();
+        output.src = reader.result!.toString();
       };
 
       // this.onLoadFile.emit(this.upload);

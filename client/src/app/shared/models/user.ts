@@ -18,10 +18,10 @@ export interface User {
 }
 
 export class UserParams implements PaginatedFilter {
-  searchTerm: string;
+  searchTerm?: string;
   pageNumber: number = 1;
   pageSize: number = 5;
-  orderBy: string;
+  orderBy?: string;
 }
 
 

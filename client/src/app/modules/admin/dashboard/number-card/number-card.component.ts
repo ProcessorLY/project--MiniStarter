@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NumberCardComponent implements OnInit {
 
-  single: any[];
+  single: any[] | null = null;
   view: any[] = [700, 400];
 
   colorScheme = {
@@ -23,7 +23,7 @@ export class NumberCardComponent implements OnInit {
 
   }
 
-  onSelect(event) {
+  onSelect(event : any) {
     console.log(event);
   }
 }

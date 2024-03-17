@@ -75,14 +75,15 @@ export class AccountService {
   }
 
   private get getStorageRefreshToken(): string {
-    return this.localStorage.getItem('refreshToken');
+    return this.localStorage.getItem('refreshToken')!;
   }
 
-  public loadCurrentUser(): Observable<string> {
+  public loadCurrentUser(): Observable<string|null> {
     const token = this.getStorageToken;
     const currentUserToken = !!(token) ? token : null;
     this.setToken(currentUserToken);
-    return of(currentUserToken);
+    var a = of(currentUserToken);
+    return a!;
   }
 
   public getCurrentLoggedInUser(): Observable<User>{

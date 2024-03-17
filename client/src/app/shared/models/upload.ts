@@ -1,6 +1,6 @@
 export class Upload {
-  file: File;
-  uploadType: UploadType;
+  file?: File;
+  uploadType?: UploadType;
 }
 
 export enum UploadType {

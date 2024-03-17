@@ -51,7 +51,7 @@
       <mat-dialog-actions align="end">
         <button mat-raised-button mat-dialog-close>Cancel</button>
         <button mat-raised-button cdkFocusInitial color="primary"
-          [disabled]="!communeForm.dirty || !communeForm.valid" type="submit">
+          [disabled]="!communeForm!.dirty || !communeForm!.valid" type="submit">
           Save
         </button>
       </mat-dialog-actions>

@@ -5,14 +5,14 @@ import { AccountService } from '../../core/services/account.service';
   selector: '[appHasPermission]'
 })
 export class HasPermissionDirective implements OnInit{
-  @Input() appHasPermission: string[];
+  @Input() appHasPermission?: string[];
 
   constructor(private viewContainerRef: ViewContainerRef,
     private templateRef: TemplateRef<any>,
     private accountService: AccountService) {}
 
     ngOnInit(): void {
-      const isAuthorized = this.accountService.isAuthorized('Permission', this.appHasPermission);
+      const isAuthorized = this.accountService.isAuthorized('Permission', this.appHasPermission!);
       if (!isAuthorized) {
         this.viewContainerRef.clear();
       } else {

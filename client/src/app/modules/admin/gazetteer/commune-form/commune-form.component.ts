@@ -11,8 +11,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./commune-form.component.scss']
 })
 export class CommuneFormComponent implements OnInit {
-  communeForm: FormGroup;
-  formTitle: string;
+  communeForm?: FormGroup;
+  formTitle?: string;
   editMode = false;
 
   validationErrors: string[] = [];
@@ -34,7 +34,7 @@ export class CommuneFormComponent implements OnInit {
       districtCode: [this.data && this.data.districtCode, Validators.required]
     });
 
-    if (this.communeForm.get('code').value === "" || this.communeForm.get('code').value == null) {
+    if (this.communeForm!.get('code')!.value === "" || this.communeForm!.get('code')!.value == null) {
       this.editMode = false;
       this.formTitle = "Add District";
     }
@@ -45,14 +45,14 @@ export class CommuneFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.communeForm.valid) {
+    if (this.communeForm!.valid) {
       if (!this.editMode) {
-        this.gazetteerService.createCommune(this.communeForm.value).subscribe({
+        this.gazetteerService.createCommune(this.communeForm!.value).subscribe({
           next: (response) => this.toastr.success("Succesfully"),
           error: (error) => this.validationErrors = error
         })
       } else {
-        this.gazetteerService.updateCommune(this.communeForm.value).subscribe({
+        this.gazetteerService.updateCommune(this.communeForm!.value).subscribe({
           next: (response) => {
             this.toastr.success("Succesfully")
           },

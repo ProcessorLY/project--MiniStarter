@@ -17,16 +17,16 @@ import { CommuneFormComponent } from '../commune-form/commune-form.component';
   styleUrls: ['./commune.component.scss']
 })
 export class CommuneComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+  @ViewChild(MatSort) sort: MatSort| null = null;
 
-  districtCode: number;
+  districtCode: number = 0;
 
   items = new MatTableDataSource<Commune>();
-  metaData: MetaData;
+  metaData?: MetaData;
   columns: string[] = ['type', 'code', 'nameKH', 'nameEN', 'action'];
 
-  searchString: string;
+  searchString?: string;
 
   ngAfterViewInit() {
     this.items.paginator = this.paginator;
@@ -81,6 +81,6 @@ export class CommuneComponent implements OnInit {
   }
   onReload = () => this.getItems();
   onSearch() {}
-  onSort($event) {}
+  onSort($event : any) {}
 
 }

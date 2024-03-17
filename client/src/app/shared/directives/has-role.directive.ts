@@ -5,14 +5,14 @@ import { AccountService } from '../../core/services/account.service';
   selector: '[appHasRole]'
 })
 export class HasRoleDirective implements OnInit{
-  @Input() appHasRole: string[];
+  @Input() appHasRole?: string[];
 
   constructor(private viewContainerRef: ViewContainerRef,
     private templateRef: TemplateRef<any>,
     private accountService: AccountService) {}
 
     ngOnInit(): void {
-      const isAuthorized = this.accountService.isAuthorized('Role', this.appHasRole);
+      const isAuthorized = this.accountService.isAuthorized('Role', this.appHasRole!);
       if (!isAuthorized) {
         this.viewContainerRef.clear();
       } else {

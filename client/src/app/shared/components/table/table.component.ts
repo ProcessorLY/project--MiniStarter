@@ -21,6 +21,7 @@ import html2canvas from 'html2canvas';
 import * as FileSaver from 'file-saver';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { PaginatedFilter } from '../../models/pagination';
+import { never } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -28,26 +29,26 @@ import { PaginatedFilter } from '../../models/pagination';
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit, AfterViewInit {
-  @ViewChild('TABLE') table: ElementRef;
-  @ViewChild('htmlData') htmlData: ElementRef;
-  copyToClipboard: string;
+  @ViewChild('TABLE') table?: ElementRef;
+  @ViewChild('htmlData') htmlData?: ElementRef;
+  copyToClipboard?: string;
 
-  public tableDataSource = new MatTableDataSource([]);
-  public displayedColumns: string[];
-  @Input() customActionOneData: CustomAction;
-  @Input() customActionData: CustomAction;
-  searchString: string;
-  @Input() totalCount: number;
-  @Input() pageSize: number;
+  public tableDataSource = new MatTableDataSource<never>([]);
+  public displayedColumns?: string[];
+  @Input() customActionOneData?: CustomAction;
+  @Input() customActionData?: CustomAction;
+  searchString?: string;
+  @Input() totalCount?: number;
+  @Input() pageSize?: number;
   @Output() onPageChanged = new EventEmitter<PaginatedFilter>();
 
-  @ViewChild(MatSort, { static: true }) matSort: MatSort;
+  @ViewChild(MatSort, { static: true }) matSort?: MatSort;
 
   @Input() title: string = 'Title';
   @Input() subtitle: string = 'Subtitle';
 
   @Input() isSortable = false;
-  @Input() columns: TableColumn[];
+  @Input() columns?: TableColumn[];
 
   @Input() set data(data: any[]) {
     this.setTableDataSource(data);
@@ -71,20 +72,20 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Output() onDelete: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(public dialog: MatDialog, private toastrService: ToastrService) { }
-  gold: EventEmitter<{ data: CustomAction }>[];
+  gold?: EventEmitter<{ data: CustomAction }>[];
   ngOnInit(): void {
-    const columnNames = this.columns.map(
+    const columnNames = this.columns!.map(
       (tableColumn: TableColumn) => tableColumn.name
     );
     this.displayedColumns = columnNames;
   }
 
   ngAfterViewInit(): void {
-    this.tableDataSource.sort = this.matSort;
+    this.tableDataSource.sort = this.matSort!;
   }
 
   setTableDataSource(data: any) {
-    this.tableDataSource = new MatTableDataSource<any>(data);
+    this.tableDataSource = new MatTableDataSource(data);
   }
   openCustomActionOne($event: any) {
     this.onCustomActionOne.emit($event);
@@ -98,10 +99,10 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.onCreateForm.emit();
   }
 
-  openEditForm($event?) {
+  openEditForm($event?: any) {
     this.onEditForm.emit($event);
   }
-  openViewForm($event?) {
+  openViewForm($event?: any) {
     this.onView.emit($event);
   }
 
@@ -115,9 +116,10 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   handleSort(sortParams: Sort) {
-    sortParams.active = this.columns.find(
-      (column) => column.name === sortParams.active
-    ).dataKey;
+    //  NOTE: 0
+    // sortParams.active = this.columns!.find(
+    //   (column) => column!.name === sortParams.active
+    // ).dataKey;
     if (sortParams.direction == "")
     {
       sortParams.direction = "asc";
@@ -145,14 +147,15 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   isAllSelected() {
     var result = true;
-    this.tableDataSource.data.forEach(element => {
+    //  NOTE: 0
+    this.tableDataSource.data.forEach((element: any) => {
       if (element.selected === false) result = false;
     });
     return result;
   }
 
   toggleTableDataSourceChecking(condition: boolean) {
-    this.tableDataSource.data.forEach(element => {
+    this.tableDataSource.data.forEach((element: any )=> {
       element.selected = condition;
     });
   }
@@ -164,7 +167,7 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   openPDF():void {
     let DATA = document.getElementById('htmlData');
-    html2canvas(DATA).then(canvas => {
+    html2canvas(DATA!).then(canvas => {
 
         let fileWidth = 208;
         let fileHeight = canvas.height * fileWidth / canvas.width;
@@ -206,10 +209,14 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   ObjectToArray(obj: object): string {
+    //  NOTE: 0
+    var result = "";
+    /*
     var result = Object.keys(obj).map((key: keyof typeof obj) => {
       let value = obj[key];
       return value;
     });
+    */
     return result.toString() + "\n";
   }
 

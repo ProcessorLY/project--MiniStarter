@@ -13,8 +13,8 @@ import { GazetteerComponent } from '../gazetteer.component';
 })
 export class ProvinceFormComponent implements OnInit {
 
-  provinceForm: FormGroup;
-  formTitle: string;
+  provinceForm?: FormGroup;
+  formTitle?: string;
   editMode = false;
 
   validationErrors: string[] = [];
@@ -35,7 +35,7 @@ export class ProvinceFormComponent implements OnInit {
       nameEN: [this.data && this.data.nameEN, Validators.required],
     });
 
-    if (this.provinceForm.get('code').value === "" || this.provinceForm.get('code').value == null) {
+    if (this.provinceForm!.get('code')!.value === "" || this.provinceForm!.get('code')!.value == null) {
       this.editMode = false;
       this.formTitle = "Add Province";
     }
@@ -46,14 +46,14 @@ export class ProvinceFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.provinceForm.valid) {
+    if (this.provinceForm!.valid) {
       if (!this.editMode) {
-        this.gazetteerService.createProvince(this.provinceForm.value).subscribe({
+        this.gazetteerService.createProvince(this.provinceForm!.value).subscribe({
           next: (response) => this.toastr.success("Succesfully"),
           error: (error) => this.validationErrors = error
         })
       } else {
-        this.gazetteerService.updateProvince(this.provinceForm.value).subscribe({
+        this.gazetteerService.updateProvince(this.provinceForm!.value).subscribe({
           next: (response) => {
             // this.toastr.success(response)
             this.toastr.success("Succesfully")

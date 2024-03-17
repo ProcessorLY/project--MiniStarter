@@ -12,8 +12,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./district-form.component.scss']
 })
 export class DistrictFormComponent implements OnInit {
-  districtForm: FormGroup;
-  formTitle: string;
+  districtForm?: FormGroup;
+  formTitle?: string;
   editMode = false;
 
   validationErrors: string[] = [];
@@ -36,7 +36,7 @@ export class DistrictFormComponent implements OnInit {
       provinceCode: [this.data && this.data.provinceCode, Validators.required]
     });
 
-    if (this.districtForm.get('code').value === "" || this.districtForm.get('code').value == null) {
+    if (this.districtForm!.get('code')!.value === "" || this.districtForm!.get('code')!.value == null) {
       this.editMode = false;
       this.formTitle = "Add District";
     }
@@ -47,14 +47,14 @@ export class DistrictFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.districtForm.valid) {
+    if (this.districtForm!.valid) {
       if (!this.editMode) {
-        this.gazetteerService.createDistrict(this.districtForm.value).subscribe({
+        this.gazetteerService.createDistrict(this.districtForm!.value).subscribe({
           next: (response) => this.toastr.success("Succesfully"),
           error: (error) => this.validationErrors = error
         })
       } else {
-        this.gazetteerService.updateDistrict(this.districtForm.value).subscribe({
+        this.gazetteerService.updateDistrict(this.districtForm!.value).subscribe({
           next: (response) => {
             this.toastr.success("Succesfully")
           },

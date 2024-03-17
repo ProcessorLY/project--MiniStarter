@@ -15,13 +15,13 @@ import { AuditLogDetailsComponent } from './audit-log-details/audit-log-details.
   styleUrls: ['./audit.component.scss']
 })
 export class AuditComponent implements OnInit {
-  items: Audit[];
-  metaData: MetaData;
-  columns: TableColumn[];
+  items?: Audit[];
+  metaData?: MetaData;
+  columns?: TableColumn[];
   params = new AuditParams();
   dataSource = new MatTableDataSource<Audit>([]);
-  searchString: string;
-  @ViewChild(MatSort) sort: MatSort;
+  searchString?: string;
+  @ViewChild(MatSort) sort: MatSort | null = null;
 
   constructor(private auditService: AuditService, private datePipe: DatePipe, public dialog: MatDialog) {
     this.params = this.auditService.getParams();
@@ -48,7 +48,7 @@ export class AuditComponent implements OnInit {
     this.auditService.getPaged().subscribe((result) => {
       this.items = result.items;
       this.metaData = result.metaData;
-      this.dataSource.data = this.items.filter(data => (data.timeStamp = this.datePipe.transform(data.timeStamp, 'MM/dd/yyyy hh:mm:ss a')));
+      this.dataSource.data = this.items!.filter(data => (data.timeStamp = this.datePipe.transform(data.timeStamp, 'MM/dd/yyyy hh:mm:ss a') ?? 'NONE'));
     });
   }
 

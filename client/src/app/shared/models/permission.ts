@@ -8,7 +8,7 @@ export interface Permission {
 
 export interface PermissionNode {
   name: string;
-  children?: PermissionNode[];
+  children: PermissionNode[] | null;
   defaultChecked: boolean;
 }
 

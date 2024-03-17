@@ -12,8 +12,8 @@ import { Role } from 'src/app/shared/models/role';
   styleUrls: ['./role-form.component.scss']
 })
 export class RoleFormComponent implements OnInit {
-  roleForm: FormGroup;
-  formTitle: string;
+  roleForm: FormGroup | null = null;
+  formTitle: string | null = null;
   constructor(@Inject(MAT_DIALOG_DATA) public data: Role, private roleService: RoleService,
     private translate: TranslateService , private toastr: ToastrService, private fb: FormBuilder) { }
 
@@ -27,7 +27,7 @@ export class RoleFormComponent implements OnInit {
       name: [this.data && this.data.name, Validators.required],
       description: [this.data && this.data.description, Validators.required]
     })
-    if (this.roleForm.get('id').value === "" || this.roleForm.get('id').value == null) {
+    if (this.roleForm.get('id')!.value === "" || this.roleForm.get('id')!.value == null) {
       this.formTitle = "Register Role";
     }
     else {
@@ -36,8 +36,11 @@ export class RoleFormComponent implements OnInit {
   }
 
   onSubmit() {
+    if(this.roleForm === null){
+      return;
+    }
     if (this.roleForm.valid) {
-      if (this.roleForm.get('id').value === "" || this.roleForm.get('id').value == null) {
+      if (this.roleForm.get('id')!.value === "" || this.roleForm.get('id')!.value == null) {
         this.roleForm.removeControl('id');
         this.roleService.createRole(this.roleForm.value).subscribe(response => {
           this.toastr.success(this.translate.instant('common.entityCreated', {entity: 'Role'}));
