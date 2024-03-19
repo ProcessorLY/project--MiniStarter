@@ -161,50 +161,87 @@ class AppTheme {
 
   static ThemeData light() {
     return ThemeData(
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-      primaryColor: colorPrimary,
-      backgroundColor: colorWhite,
-      brightness: Brightness.light,
-      checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateColor.resolveWith(
-          (states) {
-            return Colors.black;
-          },
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        primaryColor: colorPrimary,
+        brightness: Brightness.light,
+        checkboxTheme: CheckboxThemeData(
+          fillColor: MaterialStateColor.resolveWith(
+            (states) {
+              return Colors.black;
+            },
+          ),
         ),
-      ),
-      appBarTheme: const AppBarTheme(
-        foregroundColor: colorBlack,
-        backgroundColor: colorPrimary,
-      ),
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        foregroundColor: colorWhite,
-        backgroundColor: colorBlack,
-      ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        selectedItemColor: colorPrimary,
-      ),
-      textTheme: lightTextTheme,
-    );
+        appBarTheme: const AppBarTheme(
+          foregroundColor: colorBlack,
+          backgroundColor: colorPrimary,
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          foregroundColor: colorWhite,
+          backgroundColor: colorBlack,
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          selectedItemColor: colorPrimary,
+        ),
+        textTheme: lightTextTheme,
+        colorScheme: ColorScheme(
+            primary: colorPrimary,
+            onPrimary: Colors.white,
+            secondary: Color.fromARGB(255, 61, 48, 117),
+            onSecondary: Colors.white,
+            background: Colors.white,
+            onBackground: Colors.black,
+            error: Colors.red,
+            onError: Colors.white,
+            brightness: Brightness.light,
+
+            // Surface color
+            surface: Colors.grey.shade200,
+            onSurface: Colors.black,
+
+            // Secondary variants
+            //secondaryVariant: secondaryLight.withOpacity(0.7),
+            //onSecondaryVariant: Colors.black,
+
+            // Tertiary variants
+            //tertiary: primaryLight.withOpacity(0.7),
+            onTertiary: Colors.black));
   }
 
   static ThemeData dark() {
     return ThemeData(
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-      primaryColor: colorBlack,
-      backgroundColor: colorBlack,
-      brightness: Brightness.dark,
-      appBarTheme: const AppBarTheme(
-        foregroundColor: colorWhite,
-        backgroundColor: colorBlack,
-      ),
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        foregroundColor: colorWhite,
-        backgroundColor: colorPrimary,
-      ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        selectedItemColor: colorPrimary,
-      ),
-      textTheme: darkTextTheme,
-    );
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        primaryColor: colorBlack,
+        brightness: Brightness.dark,
+        appBarTheme: const AppBarTheme(
+          foregroundColor: colorWhite,
+          backgroundColor: colorBlack,
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          foregroundColor: colorWhite,
+          backgroundColor: colorPrimary,
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          selectedItemColor: colorPrimary,
+        ),
+        textTheme: darkTextTheme,
+        //colorScheme: const ColorScheme(background: colorBlack),
+        colorScheme: ColorScheme(
+            primary: colorBlack,
+            onPrimary: Colors.black,
+            secondary: Color.fromARGB(255, 61, 48, 117),
+            onSecondary: Colors.black,
+            background: colorBlack,
+            onBackground: colorWhite,
+            error: Colors.red,
+            onError: Colors.red,
+            brightness: Brightness.dark,
+            surface: Colors.grey.shade800,
+            onSurface: Colors.white,
+
+            //secondaryVariant: secondaryDark.withOpacity(0.7),
+            //onSecondaryVariant: Colors.white,
+
+            //tertiary: primaryDark.withOpacity(0.7),
+            onTertiary: Colors.white));
   }
 }

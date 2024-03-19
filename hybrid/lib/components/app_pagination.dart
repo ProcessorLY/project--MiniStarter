@@ -91,7 +91,7 @@ class _AppPaginationState extends State<AppPagination> {
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
     // FOOTER
-    final TextStyle? footerTextStyle = themeData.textTheme.caption;
+    final TextStyle? footerTextStyle = themeData.textTheme.bodySmall;
     final List<Widget> footerWidgets = <Widget>[];
     if (widget.onRowsPerPageChanged != null) {
       final List<Widget> availableRowsPerPage = widget.availableRowsPerPage!

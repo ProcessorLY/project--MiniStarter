@@ -216,11 +216,11 @@ class _HomePageState extends ConsumerState<AdminLayoutPage>
       backgroundColor: Theme.of(context).primaryColor,
       child: ListView(
         children: [
-          DrawerHeader(
+          const DrawerHeader(
             child: Center(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [Text('Chhin Sras'), Text('Flutter Developer')],
+              children: [Text('Chhin Sras'), Text('Flutter Developer')],
             )),
           ),
           Wrap(children: [

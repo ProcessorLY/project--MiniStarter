@@ -69,10 +69,11 @@ class LoginPage extends ConsumerWidget {
                                 placeholder: context.localization.translate(
                                     'login_form.username_placeholder'),
                                 formControlName: 'userName',
-                                validationMessages: (control) => {
-                                  ValidationMessage.required:
-                                      context.localization.translate(
-                                          'login_form.username_required'),
+                                //   ValidationMessage.required: context.localization.translate('login_form.username_required')
+                                validationMessages: {
+                                  ValidationMessage.required: (c) =>
+                                      (context.localization.translate(
+                                          'login_form.username_required')),
                                 },
                               ),
                               const SizedBox(height: 16),
@@ -82,8 +83,8 @@ class LoginPage extends ConsumerWidget {
                                 placeholder: context.localization.translate(
                                     'login_form.password_placeholder'),
                                 formControlName: 'password',
-                                validationMessages: (control) => {
-                                  ValidationMessage.required:
+                                validationMessages: {
+                                  ValidationMessage.required: (control) =>
                                       context.localization.translate(
                                           'login_form.password_required'),
                                 },

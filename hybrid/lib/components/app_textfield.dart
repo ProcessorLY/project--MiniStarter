@@ -14,7 +14,10 @@ class AppTextField extends StatelessWidget {
   final String label;
   final String placeholder;
   final String formControlName;
-  Map<String, String> Function(FormControl<Object?>)? validationMessages;
+
+  Map<String, String Function(Object)>? validationMessages;
+  //Map<String, String> Function(FormControl<Object?>)? validationMessagesx;
+
   bool? obscureText = false;
 
   final Color rwColor = const Color.fromRGBO(64, 143, 77, 1);

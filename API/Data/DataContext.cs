@@ -41,7 +41,7 @@ public class DataContext : AuditableContext
                     if (entry.Entity is ISoftDelete softDelete)
                     {
                         softDelete.DeletedBy = currentUserId;
-                        softDelete.DeletedOn = DateTime.UtcNow;
+                        softDelete.DeletedOn = _dateTimeService.NowUtc;
                         entry.State = EntityState.Modified;
                     }
                 break;
