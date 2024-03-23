@@ -33,6 +33,7 @@ public class WhatsappController : BaseApiController
             await image!.SaveAsPngAsync(file);
             return File(file, "image/jpeg");
 
+
             //using (var str = new MemoryStream())
             //{
             //    await image!.SaveAsPngAsync(str);
