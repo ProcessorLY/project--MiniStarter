@@ -457,3 +457,4 @@ server/API/wwwroot/**
 API/puppeteer
 
 API/Documents/Images/
+/API/Documents/Whatsapp/**
