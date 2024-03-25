@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Support.UI;
 
 
-namespace API.Modules.WhatsAppToolKit.Extentions;
+namespace API.Modules.WhatsAppToolKit.Extentions.SeleniumBased;
 
 public static class WebDriverWaitExtensions
 {
@@ -10,7 +10,7 @@ public static class WebDriverWaitExtensions
     public static IWebElement? WaitUntilElementPresent(this WebDriver driver, By by, int timeSpanTimeoutSeconds = 60, int timeSpanSeconds = 2)
     {
         var status = driver.WaituntilElementPresent(by);
-        return (status) ? driver.FindElement(by) : null;
+        return status ? driver.FindElement(by) : null;
     }
 
     public static bool WaitUntilPageComplate(this WebDriver driver, int timeSpanTimeoutSeconds = 60, int timeSpanSeconds = 2)
@@ -18,7 +18,7 @@ public static class WebDriverWaitExtensions
         var sleep = TimeSpan.FromSeconds(timeSpanSeconds);
         var timeout = TimeSpan.FromSeconds(timeSpanTimeoutSeconds);
         WebDriverWait driverWait = new WebDriverWait(new CustomClock(), driver, timeout, sleep);
-        return driverWait.Until(c=> c.IsPageFinishLoading());
+        return driverWait.Until(c => c.IsPageFinishLoading());
     }
 
     /*

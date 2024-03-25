@@ -1,56 +1,56 @@
 ﻿using API.Modules.WhatsAppToolKit.Contants;
 using API.Modules.WhatsAppToolKit.Exceptions;
 using API.Modules.WhatsAppToolKit.Interfaces;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
+//using OpenQA.Selenium;
+//using OpenQA.Selenium.Support.UI;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using System.IO;
 
 namespace API.Modules.WhatsAppToolKit;
 
-public class WhatsAppMessanger : IWhatsAppMessangerAsync, IDisposable
+public class WhatsAppMessanger : /*IWhatsAppMessanger,*/ IWhatsAppMessangerAsync
 {
     private string? _userPhone;
     private bool _userSelected = false;
-    private IWhatsAppClientAsync _client;
-    private readonly Microsoft.Extensions.Logging.ILogger logger;
+    private ISeleniumClientAsync _client;
+    private readonly Microsoft.Extensions.Logging.ILogger _logger;
 
-    public WhatsAppMessanger(IWhatsAppClientAsync whatsAppMessanger, Microsoft.Extensions.Logging.ILogger<WhatsAppMessanger> logger)
+    public WhatsAppMessanger(ISeleniumClientAsync whatsAppMessanger, Microsoft.Extensions.Logging.ILogger<WhatsAppMessanger> logger)
     {
-        this.logger = logger;
+        _logger = logger;
         _client = whatsAppMessanger;
     }
 
+    public void Open(string? profile = null)
+    {
+        _client.Open(profile);
+    }
+
+    private void Log(string m)
+    {
+        _logger.LogInformation(m);
+    }
 
     private async Task<bool> IsChatOpened()
     {
+        Log("Check chat status");
         var element = await _client.GetElementAsync(By.XPath(WhatsAppContants.MESSAGE_INPUT));
         if (element is null)
         {
+            Log("MESSAGE_INPUT not found");
             if (_userPhone is null)
             {
+                Log("_userPhone not found");
                 return false;
             }
+            Log("Reopen conversation");
             await OpenClientConversationAsync(_userPhone);
             return true;
         }
         else return true;
     }
-    private async Task<bool> IsLoggedIn()
-    {
 
-        var qrElement = await _client.GetElementAsync(By.XPath(WhatsAppContants.MESSAGE_QRCODE));
-        if (qrElement is not null) return false;
-
-        var searchElement = await _client.GetElementAsync(By.XPath(WhatsAppContants.MESSAGE_INPUT_SEARCH));
-        if (searchElement is null)
-        {
-            return false;
-        }
-        else
-            return true;
-    }
 
     private async Task<Image?> Login()
     {
@@ -59,28 +59,11 @@ public class WhatsAppMessanger : IWhatsAppMessangerAsync, IDisposable
 
         var elSize = qrCodeElement.Size;
         var elLocation = qrCodeElement.Location;
-        //elLocation.
 
         // Take a screenshot of the QR code
         var screenshot = _client.TakeScreenshot();
-        Image? image = Image.Load(screenshot.AsByteArray);
 
-        // Convert the screenshot to an image
-        /*
-        using (var ms = new MemoryStream(screenshot.AsByteArray))
-        {
-            image = await Image.LoadAsync(ms);
-            // Display the QR code image in a dialog
-            //using (var dialog = new Form())
-            //{
-            //    dialog.Text = "WhatsApp QR Code";
-            //    dialog.ClientSize = new Size(image.Width, image.Height);
-            //    dialog.BackgroundImage = image;
-            //    dialog.ShowDialog();
-            //}
-        }
-        */
-
+        Image? image = Image.Load(screenshot);
         image = image.Clone(x =>
         {
             x.Crop(new Rectangle(elLocation.X, elLocation.Y, elSize.Width, elSize.Height));
@@ -90,15 +73,33 @@ public class WhatsAppMessanger : IWhatsAppMessangerAsync, IDisposable
 
     public async Task OpenClientConversationAsync(string phoneNumber)
     {
-        await _client.NavigateToAsync("https://web.whatsapp.com/");
+        Log("Open conversation with " + phoneNumber);
+        var isLoggedIn = await _client.IsLoggedIn();
+        if (isLoggedIn)
+        {
+            var isThiscurrentUserChat = await _client.IsCurrentUserChat(phoneNumber);
+            if (!isThiscurrentUserChat)
+                await _client.OpenClientChatAsync(phoneNumber);
+            _userSelected = true;
+            _userPhone = phoneNumber;
+        }
+        else
+        {
 
+        }
+        /*
         int maxTries = 3;
         _userSelected = false;
         _userPhone = phoneNumber;
         // Check if the phone number has WhatsApp installed.
         for (int i = 0; i <= maxTries; i++)
         {
-            if ((await IsLoggedIn())) break;
+            if ((await _client.IsLoggedIn()))
+            {
+                Log("Login status is TRUE");
+                _userSelected = true;
+                break;
+            }
             else
             {
                 var image = await Login();
@@ -106,27 +107,41 @@ public class WhatsAppMessanger : IWhatsAppMessangerAsync, IDisposable
                 throw new QRCodeAuthenticationNeededException(image);
             }
         }
-        // Open the conversation.
-        await _client.NavigateToAsync($"https://web.whatsapp.com/send?phone={phoneNumber}");
-        _userSelected = true;
+        */
     }
 
     #region 
 
-    public async Task SendMessageAsync(string message)
+    public async Task<bool> SendMessageAsync(string message)
     {
         // Check if the conversation is open.
+        Log("sending message ...");
+
         var isOpend = await IsChatOpened();
-        if (!isOpend)
+        if (isOpend)
         {
+            Log("[x] Chat is opened");
+            await OpenClientConversationAsync(_userPhone);
             // Send the message.
+
             var element = await _client.GetElementAsync(By.XPath(WhatsAppContants.MESSAGE_INPUT)) ?? throw new Exception();
+
             element.SendKeys(message);
+            Log("[x] Message is written");
             element.SendKeys(Keys.Enter);
+            Log("sending ...");
+
+            //  [role="application"]>div:last-of-type
+            var lastMessageSent = await _client.GetElementAsync(By.CssSelector("[role=\"application\"]>div:last-of-type"));
+            if (lastMessageSent is null) return false;
+
+            //  span[aria-label=" Delivered "]
+            var deliveryStatus = await _client.WaitUntilElementAppearsAsync(By.CssSelector("span[aria-label=\" Delivered \"]"));
+            return deliveryStatus;
         }
         else
         {
-            return;
+            return false;
         }
     }
 
@@ -199,6 +214,18 @@ public class WhatsAppMessanger : IWhatsAppMessangerAsync, IDisposable
 
     public void Dispose()
     {
-        _client.Dispose();
+        //_client.Dispose();
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        //_client.Dispose();
+        return ValueTask.CompletedTask;
+    }
+
+    public async Task<bool> IsAvaliableAsync()
+    {
+        var body = await _client.GetElementAsync(By.TagName("body"));
+        return body is not null;
     }
 }

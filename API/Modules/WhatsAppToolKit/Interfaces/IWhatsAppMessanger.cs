@@ -2,7 +2,7 @@
 
 namespace API.Modules.WhatsAppToolKit.Interfaces;
 
-public interface IWhatsAppMessanger
+public interface IWhatsAppMessanger : IDisposable
 {
     void OpenClientConversation(string phoneNumber);
     void SendMessage(string message);

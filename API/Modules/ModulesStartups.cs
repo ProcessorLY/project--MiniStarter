@@ -4,11 +4,10 @@ namespace API.Modules
 {
     public static class ModulesStartups
     {
-        public static void ModulesInjection(this IServiceCollection services, IConfiguration configuration)
+        public static async void ModulesInjection(this IServiceCollection services, IConfiguration configuration)
         {
             //  WhatsAppToolKit
-            services.WhatsAppToolKitInjection(configuration);
-
+            await services.WhatsAppToolKitInjection(configuration);
         }
     }
 }
