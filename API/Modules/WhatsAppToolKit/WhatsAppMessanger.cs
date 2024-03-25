@@ -51,26 +51,6 @@ public class WhatsAppMessanger : /*IWhatsAppMessanger,*/ IWhatsAppMessangerAsync
         else return true;
     }
 
-
-    private async Task<Image?> Login()
-    {
-        var qrCodeElement = await _client.GetElementAsync(By.XPath(WhatsAppContants.MESSAGE_QRCODE));
-        if (qrCodeElement is null) return null;
-
-        var elSize = qrCodeElement.Size;
-        var elLocation = qrCodeElement.Location;
-
-        // Take a screenshot of the QR code
-        var screenshot = _client.TakeScreenshot();
-
-        Image? image = Image.Load(screenshot);
-        image = image.Clone(x =>
-        {
-            x.Crop(new Rectangle(elLocation.X, elLocation.Y, elSize.Width, elSize.Height));
-        });
-        return image;
-    }
-
     public async Task OpenClientConversationAsync(string phoneNumber)
     {
         Log("Open conversation with " + phoneNumber);

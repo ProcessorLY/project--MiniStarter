@@ -207,10 +207,10 @@ public class SeleniumWhatsAppClient : ISeleniumClientAsync
 
     #region Functions
 
+    //  IsLoggedIn
     //  SendMessageAsync
     //  CheckDeliveryStatusAsync
     //  OpenClientConversationAsync
-    //  IsLoggedIn
     //  .
 
     public async Task<bool> IsLoggedIn()
